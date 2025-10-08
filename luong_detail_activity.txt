@@ -1,0 +1,75 @@
+Chắc chắn rồi! Luồng hoạt động của `DetailActivity` rất thông minh, nó được thiết kế để xử lý hai kịch bản khác nhau. Dưới đây là giải thích chi tiết.
+
+Stell dir vor, `DetailActivity` ist wie ein Bilderrahmen, der darauf wartet, ein bestimmtes Bild (einen Nachrichtenartikel) anzuzeigen. Es gibt zwei Wege, wie es dieses Bild erhalten kann.
+
+***
+
+### **Kịch bản 1: Nhận "Bưu kiện đầy đủ" từ `MainActivity` 📦**
+
+Đây là luồng hoạt động phổ biến nhất, xảy ra khi bạn nhấn vào một bài báo từ danh sách "Mới và Hot".
+
+1.  **Khởi động và Nhận dữ liệu**:
+    * `MainActivity` đóng gói tất cả thông tin của bài báo (tiêu đề, URL ảnh, nội dung, ngày tháng...) vào một "bưu kiện" (`Intent`).
+    * Nó gửi bưu kiện này và yêu cầu hệ thống Android mở màn hình `DetailActivity`.
+
+2.  **Giai đoạn Khởi tạo (`onCreate`)**:
+    * `DetailActivity` được tạo ra.
+    * Nó gắn giao diện từ file `activity_detail.xml` lên màn hình.
+    * Nó thực hiện "ánh xạ View", kết nối các biến trong code với các thành phần như `ImageView`, `TextView` trên giao diện.
+
+3.  **Kiểm tra và Phân luồng**:
+    * `DetailActivity` mở "bưu kiện" (`Intent`) và kiểm tra: "Có ai gửi cho mình `article_id` không?".
+    * Trong kịch bản này, câu trả lời là **KHÔNG**. `MainActivity` đã gửi đầy đủ dữ liệu chứ không gửi ID.
+    * Vì vậy, code sẽ đi vào nhánh `else`.
+
+4.  **Mở "Bưu kiện" và Lấy dữ liệu**:
+    * `DetailActivity` lần lượt "bóc" từng món đồ ra khỏi bưu kiện:
+        * `it.getStringExtra(K_TITLE)` -> Lấy tiêu đề.
+        * `it.getStringExtra(K_IMAGE)` -> Lấy URL ảnh.
+        * `it.getStringExtra(K_CONTENT)` -> Lấy nội dung.
+        * ...và cứ thế cho các thông tin còn lại.
+
+5.  **Hiển thị Nội dung (Gọi `displayArticle()`)**:
+    * Tất cả dữ liệu vừa được "bóc" ra sẽ được truyền vào hàm `displayArticle()`.
+    * Hàm này có nhiệm vụ:
+        * Dùng thư viện **Glide** để tải ảnh từ URL và hiển thị lên `ImageView`.
+        * Lấy tên miền của trang báo để làm chú thích ảnh.
+        * Gán **tiêu đề, nội dung, ngày tháng** vào các `TextView` tương ứng.
+        * Thiết lập các sự kiện cho các nút **Chia sẻ** và **Đánh dấu**.
+        * Gán sự kiện cho **link nguồn** để khi nhấn vào sẽ mở trình duyệt.
+
+6.  **Chờ Tương tác**: Màn hình đã hiển thị đầy đủ và bây giờ chờ người dùng cuộn đọc, chia sẻ, hoặc quay lại.
+
+***
+
+### **Kịch bản 2: Nhận "Chìa khóa" từ `ClusterDetailActivity` 🔑**
+
+Luồng này xảy ra khi bạn đang xem một cụm tin và nhấn vào một bài báo trong danh sách của cụm tin đó.
+
+1.  **Khởi động và Nhận dữ liệu**:
+    * `ClusterDetailActivity` không có sẵn toàn bộ nội dung chi tiết của bài báo. Nó chỉ có **ID** của bài báo đó.
+    * Nó đóng gói duy nhất cái ID này (dưới dạng `article_id`) vào "bưu kiện" (`Intent`) và gửi đi để mở `DetailActivity`.
+
+2.  **Giai đoạn Khởi tạo (`onCreate`)**:
+    * Các bước khởi tạo và ánh xạ View diễn ra giống hệt kịch bản 1.
+
+3.  **Kiểm tra và Phân luồng**:
+    * `DetailActivity` mở "bưu kiện" và kiểm tra: "Có ai gửi cho mình `article_id` không?".
+    * Trong kịch bản này, câu trả lời là **CÓ**.
+    * Vì vậy, code sẽ đi vào nhánh `if` và ngay lập tức gọi hàm `loadArticleById(articleId, ...)`.
+
+4.  **Dùng "Chìa khóa" để Lấy dữ liệu (bên trong `loadArticleById()`)**:
+    * Hàm này nhận lấy `articleId`.
+    * Nó gửi một yêu cầu mạng lên server: "Làm ơn cho tôi toàn bộ thông tin của bài báo có ID là `[articleId]`".
+    * **Nếu thành công**: Server trả về đầy đủ thông tin (tiêu đề, ảnh, nội dung...). Hàm này sẽ lấy dữ liệu đó và gọi hàm `displayArticle()` để hiển thị lên giao diện (giống hệt bước 5 của kịch bản 1).
+    * **Nếu thất bại** (lỗi mạng, không tìm thấy bài báo): Ứng dụng sẽ hiện một thông báo lỗi (`Toast`) cho người dùng và tự động **đóng màn hình `DetailActivity` lại** (`finish()`) để quay về màn hình trước đó.
+
+5.  **Chờ Tương tác**: Nếu việc tải dữ liệu thành công, màn hình sẽ hiển thị và chờ tương tác như kịch bản 1.
+
+### **Tóm tắt**
+
+`DetailActivity` được thiết kế linh hoạt:
+* Nếu **có sẵn dữ liệu**, nó hiển thị ngay lập tức.
+* Nếu **chỉ có ID**, nó sẽ tự mình đi lấy dữ liệu rồi mới hiển thị.
+
+Cách làm này giúp tối ưu hiệu năng. `ClusterDetailActivity` không cần tải trước toàn bộ nội dung của hàng chục bài báo, mà chỉ tải khi người dùng thực sự yêu cầu xem một bài cụ thể.
