@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?> <!-- Khai báo tệp XML và mã hóa UTF-8 -->
+
+<com.google.android.material.card.MaterialCardView  <!-- Thẻ chính bao toàn item -->
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"              <!-- Chiều rộng phủ toàn hàng -->
+    android:layout_height="wrap_content"             <!-- Cao tự giãn theo nội dung -->
+    android:layout_marginStart="16dp"                <!-- Cách lề trái -->
+    android:layout_marginEnd="16dp"                  <!-- Cách lề phải -->
+    android:layout_marginBottom="12dp"               <!-- Khoảng cách dưới mỗi item -->
+    app:cardCornerRadius="12dp"                      <!-- Bo góc nhẹ 12dp -->
+    app:cardElevation="3dp"                          <!-- Đổ bóng nhẹ cho card -->
+    android:clickable="true"                         <!-- Cho phép nhấn -->
+    android:focusable="true"                         <!-- Cho phép focus -->
+    android:foreground="?attr/selectableItemBackground"> <!-- Hiệu ứng ripple khi bấm -->
+
+    <!-- ==================== BỐ CỤC NỘI DUNG CHÍNH ==================== -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="0dp">
+
+        <!-- ==================== HUY HIỆU XẾP HẠNG (Rank Badge) ==================== -->
+        <TextView
+            android:id="@+id/tvRank"                  <!-- ID của nhãn xếp hạng -->
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:text="1"                          <!-- Mặc định hiển thị “1” -->
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"          <!-- Chữ trắng -->
+            android:background="@drawable/badge_bg"   <!-- Nền màu (thường là hình tròn) -->
+            android:gravity="center"                  <!-- Căn chữ giữa ô -->
+            android:elevation="4dp"                   <!-- Hiệu ứng nổi lên -->
+            android:layout_margin="12dp"              <!-- Cách mép card -->
+            app:layout_constraintStart_toStartOf="parent"  <!-- Gắn mép trái -->
+            app:layout_constraintTop_toTopOf="parent" />    <!-- Gắn mép trên -->
+
+        <!-- ==================== ẢNH BÀI VIẾT ==================== -->
+        <ImageView
+            android:id="@+id/imgArticle"
+            android:layout_width="120dp"              <!-- Rộng cố định 120dp -->
+            android:layout_height="120dp"             <!-- Cao 120dp -->
+            android:scaleType="centerCrop"            <!-- Cắt và căn giữa ảnh -->
+            android:background="#F5F5F5"              <!-- Màu nền placeholder xám nhạt -->
+            app:layout_constraintEnd_toEndOf="parent" <!-- Gắn sát phải -->
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- ==================== KHỐI NỘI DUNG BÊN TRÁI ==================== -->
+        <LinearLayout
+            android:layout_width="0dp"                <!-- Dùng constraint để giãn -->
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"                    <!-- Khoảng cách trong -->
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imgArticle" <!-- Kéo dài tới ảnh -->
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <!-- ==================== BADGE NGUỒN TIN (Facebook, Zing, VnExpress...) ==================== -->
+            <TextView
+                android:id="@+id/tvSourceBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Facebook"               <!-- Mặc định -->
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:background="@drawable/badge_source" <!-- Nền tròn màu theo nguồn -->
+                android:layout_marginBottom="6dp" />
+
+            <!-- ==================== TIÊU ĐỀ BÀI VIẾT ==================== -->
+            <TextView
+                android:id="@+id/tvArticleTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tiêu đề bài viết trong cụm tin tức" <!-- Văn bản mẫu -->
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/title_black"
+                android:fontFamily="@font/ibmplexsans_semibold"
+                android:maxLines="3"                   <!-- Giới hạn 3 dòng -->
+                android:ellipsize="end"                <!-- Nếu dài quá → thêm “...” -->
+                android:lineSpacingExtra="3dp"         <!-- Giãn dòng -->
+                android:layout_marginBottom="6dp" />
+
+            <!-- ==================== MÔ TẢ / NỘI DUNG RÚT GỌN ==================== -->
+            <TextView
+                android:id="@+id/tvArticleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nội dung bài viết preview..."  <!-- Mẫu hiển thị -->
+                android:textSize="13sp"
+                android:textColor="@color/text_gray"
+                android:fontFamily="@font/ibmplexsans_regular"
+                android:maxLines="2"                   <!-- Hiển thị tối đa 2 dòng -->
+                android:ellipsize="end"                <!-- Cắt bớt khi dài -->
+                android:lineSpacingExtra="2dp" />      <!-- Giãn dòng nhẹ -->
+
+        </LinearLayout> <!-- Kết thúc khối nội dung bên trái -->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

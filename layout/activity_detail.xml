@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File layout hiển thị chi tiết một bài báo (Article Detail Screen) -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"              <!-- Chiếm toàn chiều ngang -->
+    android:layout_height="match_parent"             <!-- Chiếm toàn chiều cao màn hình -->
+    android:fillViewport="true"                      <!-- Cho phép nội dung con giãn đủ chiều cao nếu ít -->
+    android:background="@color/home_bg">             <!-- Màu nền tổng thể của trang -->
+
+    <!-- Bố cục chính: LinearLayout dọc chứa các phần nội dung -->
+    <LinearLayout
+        android:layout_width="match_parent"          <!-- Toàn màn hình -->
+        android:layout_height="wrap_content"         <!-- Cao theo nội dung -->
+        android:orientation="vertical">              <!-- Sắp xếp các view theo chiều dọc -->
+
+        <!-- ========== ẢNH HEADER (ẢNH BÀI BÁO) ========== -->
+        <ImageView
+            android:id="@+id/imgHeader"              <!-- ID để load ảnh qua code -->
+            android:layout_width="match_parent"      <!-- Chiếm hết chiều ngang -->
+            android:layout_height="240dp"            <!-- Chiều cao cố định -->
+            android:scaleType="centerCrop" />        <!-- Phóng ảnh sao cho phủ toàn vùng và cắt bớt phần dư -->
+
+        <!-- ========== CHÚ THÍCH ẢNH (CAPTION) ========== -->
+        <TextView
+            android:id="@+id/tvCaption"              <!-- ID để hiển thị chú thích -->
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"              <!-- Lề trái -->
+            android:paddingEnd="16dp"                <!-- Lề phải -->
+            android:paddingTop="6dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/title_gray"    <!-- Màu xám nhạt -->
+            android:textSize="12sp"                  <!-- Kích thước nhỏ -->
+            android:maxLines="2"                     <!-- Giới hạn tối đa 2 dòng -->
+            android:ellipsize="end" />               <!-- Nếu dài quá thì thêm “…” ở cuối -->
+
+        <!-- ========== KHỐI NỘI DUNG CHÍNH ========== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"           <!-- Các thành phần trong bài xếp dọc -->
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="24dp">            <!-- Lề dưới để nội dung không chạm viền -->
+
+            <!-- TIÊU ĐỀ BÀI BÁO -->
+            <TextView
+                android:id="@+id/tvTitle"            <!-- ID để setText tiêu đề -->
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"  <!-- Màu đen nổi bật -->
+                android:textSize="24sp"                   <!-- Kích cỡ chữ lớn -->
+                android:fontFamily="@font/ibmplexserif_medium" <!-- Font serif trung bình -->
+                android:lineSpacingExtra="2dp" />          <!-- Tăng khoảng cách giữa các dòng -->
+
+            <!-- ĐOẠN MỞ BÀI (LEDE) -->
+            <TextView
+                android:id="@+id/tvLede"             <!-- ID đoạn mở đầu -->
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"      <!-- Cách tiêu đề 12dp -->
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"             <!-- In đậm nhấn mạnh -->
+                android:lineSpacingExtra="2dp" />
+
+            <!-- DÒNG META (Nguồn, ngày đăng, tác giả, v.v.) -->
+            <TextView
+                android:id="@+id/tvMeta"             <!-- ID dòng thông tin phụ -->
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/title_gray"<!-- Màu xám nhẹ -->
+                android:textSize="13sp" />
+
+            <!-- ========== HÀNG CHỨA NÚT TÁC VỤ ========== -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"      <!-- Xếp ngang -->
+                android:gravity="center_vertical">    <!-- Căn giữa dọc -->
+
+                <!-- HUY HIỆU THỜI GIAN ĐỌC (READ TIME) -->
+                <TextView
+                    android:id="@+id/badgeReadTime"   <!-- ID thời gian đọc -->
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:minWidth="64dp"           <!-- Chiều rộng tối thiểu -->
+                    android:gravity="center"          <!-- Căn giữa nội dung -->
+                    android:paddingStart="10dp"       <!-- Lề trong trái -->
+                    android:paddingEnd="10dp"         <!-- Lề trong phải -->
+                    android:text="6 phút"             <!-- Mặc định 6 phút -->
+                    android:textSize="12sp"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/badge_bg" /> <!-- Nền bo tròn màu chủ đạo -->
+
+                <!-- NÚT CHIA SẺ -->
+                <TextView
+                    android:id="@+id/btnShare"        <!-- ID nút share -->
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="8dp"  <!-- Cách phần trước 8dp -->
+                    android:minWidth="64dp"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="Chia sẻ"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/badge_bg" /> <!-- Dùng cùng kiểu nền -->
+
+                <!-- NÚT LƯU (BOOKMARK) -->
+                <TextView
+                    android:id="@+id/btnBookmark"     <!-- ID nút lưu -->
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="8dp"
+                    android:minWidth="64dp"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="Lưu"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/badge_bg" />
+            </LinearLayout>
+
+            <!-- NỘI DUNG CHÍNH CỦA BÀI VIẾT -->
+            <TextView
+                android:id="@+id/tvContent"           <!-- ID để hiển thị toàn bộ nội dung -->
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"       <!-- Cách cụm trên 16dp -->
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:lineSpacingExtra="2dp" />     <!-- Giãn dòng để dễ đọc -->
+
+            <!-- NGUỒN GỐC / LINK GỐC CỦA BÀI VIẾT -->
+            <TextView
+                android:id="@+id/tvSourceLink"        <!-- ID để gắn đường dẫn nguồn -->
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"             <!-- Cách nội dung chính 12dp -->
+                android:textColor="@color/title_gray" <!-- Màu xám nhẹ -->
+                android:textSize="12sp"
+                android:visibility="gone"/>            <!-- Ẩn mặc định, chỉ hiện khi có link -->
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

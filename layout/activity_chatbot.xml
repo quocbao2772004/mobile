@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Khai báo file XML, quy định chuẩn mã hóa UTF-8 -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"      <!-- Chiều ngang chiếm toàn màn hình -->
+    android:layout_height="match_parent"     <!-- Chiều dọc chiếm toàn màn hình -->
+    android:background="#FFF5F5F5">          <!-- Màu nền xám nhạt cho toàn màn -->
+
+    <!-- ======================= PHẦN HEADER (Thanh tiêu đề) ======================= -->
+    <LinearLayout
+        android:id="@+id/headerChat"             <!-- Gán ID để code Java truy cập -->
+        android:layout_width="match_parent"      <!-- Chiếm toàn bộ chiều ngang -->
+        android:layout_height="wrap_content"     <!-- Cao bằng nội dung con -->
+        android:background="@android:color/white"<!-- Nền trắng -->
+        android:orientation="horizontal"         <!-- Xếp các view con theo chiều ngang -->
+        android:padding="12dp"                   <!-- Thêm khoảng cách bên trong -->
+        android:gravity="center_vertical"        <!-- Căn giữa theo trục dọc -->
+        android:elevation="2dp">                 <!-- Tạo đổ bóng nhẹ phía dưới -->
+
+        <!-- Nút quay lại (mũi tên) -->
+        <ImageButton
+            android:id="@+id/btnBack"                            <!-- ID nút back -->
+            android:layout_width="40dp"                           <!-- Rộng cố định 40dp -->
+            android:layout_height="40dp"                          <!-- Cao cố định 40dp -->
+            android:background="?attr/selectableItemBackgroundBorderless"  <!-- Hiệu ứng nhấn -->
+            android:src="@android:drawable/ic_menu_revert"        <!-- Ảnh icon mặc định của Android -->
+            app:tint="#666666"                                   <!-- Đổi màu icon sang xám -->
+            android:contentDescription="Quay lại" />             <!-- Mô tả cho người dùng hỗ trợ (accessibility) -->
+
+        <!-- Ảnh đại diện (avatar bot) -->
+        <ImageView
+            android:layout_width="44dp"                           <!-- Rộng 44dp -->
+            android:layout_height="44dp"                          <!-- Cao 44dp -->
+            android:layout_marginStart="8dp"                      <!-- Cách nút back 8dp -->
+            android:src="@drawable/ic_avatar"                     <!-- Ảnh avatar mặc định -->
+            android:background="@drawable/round_avatar"           <!-- Nền tròn để tạo viền -->
+            android:clipToOutline="true" />                       <!-- Cắt ảnh theo khung tròn -->
+
+        <!-- Khu vực chứa tên và trạng thái bot -->
+        <LinearLayout
+            android:layout_width="0dp"                            <!-- Dùng layout_weight để giãn -->
+            android:layout_height="wrap_content"
+            android:layout_weight="1"                             <!-- Chiếm phần còn lại trong hàng -->
+            android:orientation="vertical"                        <!-- Xếp con theo chiều dọc -->
+            android:layout_marginStart="12dp">                    <!-- Cách avatar 12dp -->
+
+            <!-- Tên bot -->
+            <TextView
+                android:layout_width="wrap_content"               <!-- Tự co theo nội dung -->
+                android:layout_height="wrap_content"
+                android:text="NewsBot"                            <!-- Hiển thị tên -->
+                android:textColor="#000000"                       <!-- Màu chữ đen -->
+                android:textSize="16sp"                           <!-- Cỡ chữ 16sp -->
+                android:textStyle="bold" />                       <!-- In đậm -->
+
+            <!-- Hàng hiển thị trạng thái -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"                  <!-- Xếp theo chiều ngang -->
+                android:gravity="center_vertical"                 <!-- Căn giữa theo trục dọc -->
+                android:layout_marginTop="2dp">                   <!-- Cách tên bot 2dp -->
+
+                <!-- Chấm tròn nhỏ báo online -->
+                <View
+                    android:layout_width="8dp"                    <!-- Rộng 8dp -->
+                    android:layout_height="8dp"                   <!-- Cao 8dp -->
+                    android:background="@drawable/online_indicator" />  <!-- Drawable chấm tròn màu xanh -->
+
+                <!-- Dòng chữ “Đang hoạt động” -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đang hoạt động"                 <!-- Văn bản trạng thái -->
+                    android:textColor="#4CAF50"                   <!-- Màu xanh lá cây -->
+                    android:textSize="12sp"                       <!-- Kích cỡ nhỏ -->
+                    android:layout_marginStart="6dp" />            <!-- Cách chấm tròn 6dp -->
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Nút menu (3 chấm dọc) -->
+        <ImageButton
+            android:layout_width="40dp"                           <!-- Rộng 40dp -->
+            android:layout_height="40dp"                          <!-- Cao 40dp -->
+            android:background="?attr/selectableItemBackgroundBorderless" <!-- Hiệu ứng nhấn -->
+            android:src="@android:drawable/ic_menu_more"          <!-- Icon menu mặc định -->
+            app:tint="#666666"                                   <!-- Đổi màu xám -->
+            android:contentDescription="Menu" />                 <!-- Mô tả -->
+    </LinearLayout>
+
+    <!-- ======================= DANH SÁCH TIN NHẮN (RecyclerView) ======================= -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewChat"                        <!-- ID để gắn adapter -->
+        android:layout_width="match_parent"                       <!-- Chiếm hết chiều ngang -->
+        android:layout_height="match_parent"                      <!-- Chiều cao chiếm hết phần trống -->
+        android:layout_above="@id/inputLayout"                    <!-- Giới hạn phía trên ô nhập -->
+        android:layout_below="@id/headerChat"                     <!-- Nằm dưới header -->
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:clipToPadding="false"                             <!-- Cho phép hiển thị nội dung tràn padding -->
+        android:padding="12dp" />                                 <!-- Khoảng cách viền tin nhắn -->
+
+    <!-- ======================= KHUNG NHẬP TIN NHẮN (Thanh dưới cùng) ======================= -->
+    <LinearLayout
+        android:id="@+id/inputLayout"                             <!-- ID để điều khiển gửi tin -->
+        android:layout_width="match_parent"                       <!-- Chiếm toàn chiều ngang -->
+        android:layout_height="wrap_content"                      <!-- Cao vừa nội dung -->
+        android:layout_alignParentBottom="true"                   <!-- Dính sát đáy màn hình -->
+        android:orientation="horizontal"                          <!-- Sắp xếp theo hàng ngang -->
+        android:padding="12dp"                                    <!-- Khoảng cách trong -->
+        android:background="@android:color/white"                 <!-- Nền trắng -->
+        android:elevation="4dp"                                   <!-- Đổ bóng nổi hơn header -->
+        android:gravity="center_vertical">                        <!-- Căn giữa theo chiều dọc -->
+
+        <!-- Hộp nhập văn bản (bo tròn) -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"                            <!-- Dùng trọng số chia không gian -->
+            android:layout_height="wrap_content"
+            android:layout_weight="1"                             <!-- Chiếm phần lớn chiều ngang -->
+            app:cardBackgroundColor="#FFF0F0F0"                   <!-- Màu nền xám nhạt -->
+            app:cardCornerRadius="24dp"                           <!-- Bo góc tròn -->
+            app:cardElevation="0dp"                               <!-- Không đổ bóng thêm -->
+            android:layout_marginEnd="8dp">                       <!-- Cách nút gửi 8dp -->
+
+            <!-- Bên trong hộp nhập -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"                  <!-- Nằm ngang -->
+                android:gravity="center_vertical"                 <!-- Căn giữa dọc -->
+                android:paddingStart="16dp"                       <!-- Lề trái -->
+                android:paddingEnd="4dp"                          <!-- Lề phải -->
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <!-- Ô nhập văn bản -->
+                <EditText
+                    android:id="@+id/edtMessage"                  <!-- ID để đọc nội dung người dùng nhập -->
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"                     <!-- Chiếm phần lớn trong card -->
+                    android:hint="Nhập câu hỏi của bạn"           <!-- Gợi ý mờ khi chưa nhập -->
+                    android:textColorHint="#999999"               <!-- Màu chữ gợi ý xám nhạt -->
+                    android:textColor="#000000"                   <!-- Màu chữ nhập thật màu đen -->
+                    android:background="@null"                    <!-- Bỏ viền gốc EditText -->
+                    android:inputType="textMultiLine|textCapSentences" <!-- Cho phép nhiều dòng và viết hoa đầu câu -->
+                    android:maxLines="4"                          <!-- Giới hạn tối đa 4 dòng -->
+                    android:textSize="15sp" />                    <!-- Cỡ chữ 15sp -->
+
+                <!-- Nút micro (ghi âm) -->
+                <ImageButton
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_btn_speak_now"  <!-- Icon micro mặc định -->
+                    app:tint="#666666"                               <!-- Đổi màu xám -->
+                    android:contentDescription="Micro" />             <!-- Mô tả -->
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Nút gửi tin nhắn -->
+        <ImageButton
+            android:id="@+id/btnSend"                               <!-- ID để bắt sự kiện gửi -->
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/button_send_chat"          <!-- Nền tròn màu chủ đạo -->
+            android:src="@android:drawable/ic_menu_send"             <!-- Icon gửi -->
+            app:tint="@android:color/white"                          <!-- Màu icon trắng -->
+            android:contentDescription="Gửi tin nhắn" />             <!-- Mô tả -->
+    </LinearLayout>
+</RelativeLayout>

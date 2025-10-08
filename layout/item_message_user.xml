@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?> <!-- Khai báo tệp XML và chuẩn mã hóa ký tự -->
+
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"          <!-- Rộng bằng toàn bộ chiều ngang -->
+    android:layout_height="wrap_content"         <!-- Cao giãn theo nội dung -->
+    android:orientation="vertical"               <!-- Các phần tử con xếp theo chiều dọc -->
+    android:padding="4dp"                        <!-- Khoảng cách ngoài của toàn khung -->
+    android:gravity="end">                       <!-- Căn lề phải (vì là tin nhắn của người dùng) -->
+
+    <!-- ========== KHUNG TIN NHẮN NGƯỜI DÙNG ========== -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"      <!-- Rộng vừa nội dung -->
+        android:layout_height="wrap_content"     <!-- Cao tự giãn -->
+        android:layout_gravity="end"             <!-- Đặt thẻ ở mép phải -->
+        app:cardBackgroundColor="#4F6EF7"        <!-- Màu nền xanh lam cho bong bóng -->
+        app:cardCornerRadius="18dp"              <!-- Bo tròn góc -->
+        app:cardElevation="1dp">                 <!-- Hiệu ứng nổi nhẹ -->
+
+        <!-- ======= VĂN BẢN NỘI DUNG TIN NHẮN ======= -->
+        <TextView
+            android:id="@+id/tvUserMessage"      <!-- ID để truy cập trong code -->
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="280dp"             <!-- Giới hạn độ rộng bong bóng -->
+            android:padding="12dp"               <!-- Khoảng đệm trong bong bóng -->
+            android:text="Tin nhắn của người dùng" <!-- Văn bản mẫu -->
+            android:textColor="@android:color/white" <!-- Chữ trắng trên nền xanh -->
+            android:textSize="15sp" />            <!-- Cỡ chữ trung bình -->
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

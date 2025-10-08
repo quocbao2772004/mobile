@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?> <!-- Khai báo định dạng XML và mã hóa ký tự UTF-8 -->
+
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"          <!-- Chiều rộng = toàn màn hình -->
+    android:layout_height="wrap_content"         <!-- Chiều cao tự giãn theo nội dung -->
+    android:orientation="horizontal"             <!-- Các phần tử con xếp theo chiều ngang -->
+    android:padding="4dp"                        <!-- Khoảng đệm xung quanh tin nhắn -->
+    android:gravity="start">                     <!-- Căn lề trái (bot thường ở bên trái) -->
+
+    <!-- ================== AVATAR BOT ================== -->
+    <ImageView
+        android:layout_width="32dp"              <!-- Ảnh đại diện rộng 32dp -->
+        android:layout_height="32dp"             <!-- Cao 32dp -->
+        android:src="@drawable/ic_avatar"        <!-- Ảnh đại diện bot (file icon) -->
+        android:background="@drawable/round_avatar" <!-- Bo tròn khung ảnh -->
+        android:clipToOutline="true"             <!-- Cắt ảnh theo hình bo tròn -->
+        android:layout_marginEnd="8dp"           <!-- Cách bong bóng tin nhắn 8dp -->
+        android:layout_marginTop="4dp" />        <!-- Cách phía trên 4dp -->
+
+    <!-- ================== KHUNG NỘI DUNG TIN NHẮN ================== -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">          <!-- Các phần tử con xếp dọc (tin nhắn, gợi ý, v.v.) -->
+
+        <!-- ====== BONG BÓNG TIN NHẮN BOT ====== -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"        <!-- Căn trái -->
+            app:cardBackgroundColor="#FFF0EFF0"   <!-- Màu nền xám nhạt -->
+            app:cardCornerRadius="18dp"           <!-- Bo góc mềm mại -->
+            app:cardElevation="1dp">              <!-- Hiệu ứng đổ bóng nhẹ -->
+
+            <!-- ====== NỘI DUNG VĂN BẢN ====== -->
+            <TextView
+                android:id="@+id/tvBotMessage"     <!-- ID của nội dung tin nhắn -->
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="280dp"           <!-- Giới hạn độ rộng của bong bóng -->
+                android:padding="12dp"             <!-- Khoảng đệm bên trong -->
+                android:text="Tin nhắn từ bot"     <!-- Văn bản mẫu -->
+                android:textColor="#000000"        <!-- Màu chữ đen -->
+                android:textSize="15sp" />          <!-- Cỡ chữ trung bình -->
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ====== KHU VỰC GỢI Ý PHẢN HỒI (SUGGESTION BUTTONS) ====== -->
+        <LinearLayout
+            android:id="@+id/suggestionsLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"         <!-- Các nút gợi ý xếp dọc -->
+            android:layout_marginTop="8dp"
+            android:visibility="gone" />            <!-- Mặc định ẩn, chỉ hiện khi bot gửi gợi ý -->
+    </LinearLayout>
+</LinearLayout>

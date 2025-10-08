@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<!-- Khai báo định dạng XML và mã hóa UTF-8 (chuẩn cho layout Android) -->
+
+<FrameLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent"         <!-- Rộng toàn bộ màn hình cha -->
+    android:layout_height="match_parent">       <!-- Cao toàn bộ màn hình cha -->
+
+    <!-- =================== ẢNH HIỂN THỊ TRONG VIEWPAGER =================== -->
+    <ImageView
+        android:id="@+id/imageView"             <!-- ID của ảnh để tham chiếu trong code -->
+        android:layout_width="match_parent"     <!-- Ảnh phủ toàn khung ngang -->
+        android:layout_height="match_parent"    <!-- Ảnh phủ toàn khung dọc -->
+        android:scaleType="centerCrop"          <!-- Cắt ảnh vừa khung, giữ tỉ lệ -->
+        android:contentDescription="Cluster image" /> <!-- Mô tả cho trợ năng (accessibility) -->
+        
+</FrameLayout> <!-- Kết thúc FrameLayout -->

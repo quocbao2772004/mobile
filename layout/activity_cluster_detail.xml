@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- File layout hiển thị chi tiết cụm tin (Cluster Detail) -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"              <!-- Chiếm toàn bộ chiều ngang -->
+    android:layout_height="match_parent"             <!-- Chiếm toàn bộ chiều cao màn hình -->
+    android:background="@color/home_bg">             <!-- Màu nền chính của màn hình -->
+
+    <!-- Dùng LinearLayout bên trong để chứa toàn bộ nội dung cuộn -->
+    <LinearLayout
+        android:layout_width="match_parent"          <!-- Chiều rộng toàn màn -->
+        android:layout_height="wrap_content"         <!-- Cao vừa đủ nội dung -->
+        android:orientation="vertical">              <!-- Xếp các phần tử con theo chiều dọc -->
+
+        <!-- ==================== PHẦN 1: ViewPager hiển thị ảnh ==================== -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"              <!-- ID để nạp adapter ảnh -->
+            android:layout_width="match_parent"      <!-- Rộng toàn màn hình -->
+            android:layout_height="220dp" />         <!-- Cao cố định 220dp cho vùng ảnh -->
+
+        <!-- ==================== PHẦN 2: Thông tin cụm tin ==================== -->
+        <LinearLayout
+            android:layout_width="match_parent"      <!-- Chiều ngang toàn bộ -->
+            android:layout_height="wrap_content"     <!-- Cao theo nội dung -->
+            android:orientation="vertical"           <!-- Sắp xếp các TextView theo cột -->
+            android:padding="16dp"                   <!-- Lề trong 16dp -->
+            android:background="@color/white">       <!-- Nền trắng tách biệt với phần nền tổng -->
+
+            <!-- Tiêu đề cụm tin -->
+            <TextView
+                android:id="@+id/tvTitle"            <!-- ID để code gán tiêu đề thật -->
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tiêu đề cụm tin"       <!-- Văn bản mặc định -->
+                android:textSize="22sp"              <!-- Kích thước chữ lớn -->
+                android:textStyle="bold"             <!-- In đậm -->
+                android:textColor="@color/title_black"  <!-- Màu chữ đen chủ đạo -->
+                android:fontFamily="@font/ibmplexsans_semibold" <!-- Font chữ -->
+                android:lineSpacingExtra="4dp" />    <!-- Tăng khoảng cách giữa các dòng -->
+
+            <!-- Dòng thông tin phụ (nguồn + số bài viết) -->
+            <TextView
+                android:id="@+id/tvMeta"             <!-- ID để thay nội dung động -->
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="VnExpress • 5 bài viết"<!-- Văn bản ví dụ -->
+                android:textSize="14sp"              <!-- Cỡ chữ nhỏ hơn -->
+                android:textColor="@color/title_gray"<!-- Màu xám nhạt -->
+                android:layout_marginTop="8dp" />    <!-- Cách tiêu đề 8dp -->
+
+            <!-- Tóm tắt nội dung cụm tin -->
+            <TextView
+                android:id="@+id/tvSummary"          <!-- ID để set text tóm tắt -->
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tóm tắt cụm tin..."    <!-- Văn bản mặc định -->
+                android:textSize="16sp"              <!-- Kích thước chữ vừa -->
+                android:textColor="@color/text_gray" <!-- Màu xám chữ thân bài -->
+                android:fontFamily="@font/ibmplexsans_regular"
+                android:lineSpacingExtra="4dp"       <!-- Khoảng cách dòng dễ đọc -->
+                android:layout_marginTop="16dp" />   <!-- Cách phần meta 16dp -->
+
+        </LinearLayout>
+
+        <!-- ==================== PHẦN 3: Danh sách bài viết liên quan ==================== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"           <!-- Mỗi bài là 1 dòng trong cột -->
+            android:background="@color/home_bg"      <!-- Nền trùng màu nền tổng -->
+            android:paddingTop="16dp"                <!-- Lề trên 16dp -->
+            android:paddingBottom="16dp">            <!-- Lề dưới 16dp -->
+
+            <!-- Tiêu đề phần “Các bài viết liên quan” -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📰 Các bài viết liên quan" <!-- Tiêu đề có emoji báo chí -->
+                android:textSize="20sp"              <!-- Cỡ chữ lớn -->
+                android:textStyle="bold"             <!-- In đậm -->
+                android:textColor="@color/title_black" <!-- Màu đen tiêu đề -->
+                android:fontFamily="@font/ibmplexsans_semibold"
+                android:paddingStart="16dp"          <!-- Lề trái -->
+                android:paddingEnd="16dp"            <!-- Lề phải -->
+                android:layout_marginBottom="12dp" /> <!-- Cách phần danh sách 12dp -->
+
+            <!-- Nơi hiển thị các bài viết liên quan -->
+            <LinearLayout
+                android:id="@+id/articlesContainer"  <!-- ID để code thêm các bài viết con -->
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />    <!-- Sắp xếp các bài theo chiều dọc -->
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
