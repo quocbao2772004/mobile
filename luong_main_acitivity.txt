@@ -1,0 +1,76 @@
+Tất nhiên rồi! Dưới đây là luồng hoạt động chi tiết của `MainActivity`, giải thích từng bước một cách tuần tự từ khi màn hình được mở lên.
+
+Luồng hoạt động của `MainActivity` có thể chia thành 4 giai đoạn chính: **Khởi tạo**, **Tải dữ liệu ban đầu**, **Hiển thị và chờ**, và **Xử lý tương tác**.
+
+***
+
+### **1. Giai đoạn Khởi tạo (Khi `onCreate()` được gọi) 🚀**
+
+Đây là bước thiết lập toàn bộ "sân khấu" khi người dùng vừa mở màn hình chính.
+
+1.  **Gắn Giao Diện**: Ứng dụng lấy layout từ file `activity_main.xml` và vẽ nó lên màn hình.
+2.  **Ánh xạ View**: Các biến trong code (như `rvNews`, `tvTitle`, `ivMenu`...) được kết nối với các thành phần tương ứng trong file layout XML.
+3.  **Cấu hình Danh sách**: `RecyclerView` (`rvNews`) được thiết lập để hiển thị các mục theo chiều dọc từ trên xuống dưới.
+4.  **Chuẩn bị "Người quản lý" (Adapter)**:
+    * Hai "người quản lý" danh sách được tạo ra:
+        * `newsAdapter`: Để quản lý việc hiển thị danh sách **bài báo**.
+        * `clusterAdapter`: Để quản lý việc hiển thị danh sách **cụm tin**.
+    * Quan trọng nhất, mỗi adapter được "dặn" rằng: "Khi người dùng nhấn vào một mục nào đó, hãy báo lại cho `MainActivity` bằng cách gọi phương thức `openDetail` (cho bài báo) hoặc `openClusterDetail` (cho cụm tin)".
+5.  **Thiết lập Chế độ Mặc định**: `newsAdapter` được gán làm người quản lý mặc định cho `RecyclerView`. Điều này có nghĩa là khi ứng dụng mở lên, nó sẽ luôn ở chế độ xem danh sách bài báo.
+6.  **Hiển thị Ngày**: Lấy ngày giờ hiện tại của hệ thống, định dạng lại và hiển thị lên `TextView`.
+7.  **Gán Sự kiện**:
+    * Gán hành động cho **icon Menu (`ivMenu`)**: Khi nhấn, gọi hàm `toggleMode()`.
+    * Gán hành động cho **icon Tài khoản (`btnAccount`)**: Khi nhấn, mở màn hình `ProfileActivity`.
+
+***
+
+### **2. Giai đoạn Tải dữ liệu ban đầu (Gọi `loadAllNews()`) ⏬**
+
+Ngay sau khi khởi tạo xong, `onCreate()` gọi hàm `loadAllNews()` để lấp đầy dữ liệu cho màn hình.
+
+1.  **Gọi API Lần 1**: Ứng dụng gửi một yêu cầu mạng đến server để lấy danh sách các **bài báo** (`getArticles`).
+2.  **Xử lý Phản hồi Lần 1**:
+    * Khi server trả về danh sách bài báo, ứng dụng tạm thời lưu nó vào một danh sách có tên là `all`.
+    * Ngay lập tức, ứng dụng gửi tiếp một **yêu cầu mạng lần 2** để lấy danh sách các **bài viết Facebook** (`getFacebookPosts`).
+3.  **Xử lý Phản hồi Lần 2 và Gộp dữ liệu**:
+    * Khi server trả về danh sách bài viết Facebook, ứng dụng sẽ **nối** danh sách này vào cuối danh sách `all` đã có từ bước 2.
+    * Bây giờ, danh sách `all` chứa cả bài báo và bài viết Facebook.
+4.  **Cập nhật Giao diện**: Toàn bộ danh sách `all` được đưa cho `newsAdapter`. `newsAdapter` nhận lấy dữ liệu này và bắt đầu quá trình hiển thị từng mục lên `RecyclerView`.
+
+***
+
+### **3. Giai đoạn Hiển thị và Chờ ⏳**
+
+Sau khi `loadAllNews()` hoàn tất, màn hình chính ở trạng thái ổn định:
+* Tiêu đề là **"Mới và Hot"**.
+* Danh sách hiển thị là một hỗn hợp các bài báo và bài viết Facebook.
+* Ứng dụng bây giờ không làm gì cả, chỉ chờ người dùng thực hiện một hành động.
+
+***
+
+### **4. Giai đoạn Xử lý Tương tác người dùng 👆**
+
+Đây là các luồng sẽ xảy ra tùy thuộc vào hành động của người dùng.
+
+#### **Luồng A: Người dùng nhấn vào icon Menu (`ivMenu`)**
+
+1.  Hàm `toggleMode()` được gọi.
+2.  Biến `isClusterMode` được đảo ngược giá trị (từ `false` thành `true`).
+3.  Ứng dụng kiểm tra: vì `isClusterMode` bây giờ là `true`, nó sẽ:
+    * Đổi `TextView` tiêu đề thành **"Cụm tin"**.
+    * **Thay thế** `newsAdapter` bằng `clusterAdapter` trong `RecyclerView`.
+    * Gọi hàm `loadClusters()` để tải dữ liệu các cụm tin từ server và hiển thị lên danh sách.
+4.  Nếu người dùng nhấn vào icon Menu **một lần nữa**, `isClusterMode` lại đảo thành `false`, và ứng dụng sẽ quay trở lại trạng thái hiển thị "Mới và Hot" như ban đầu.
+
+#### **Luồng B: Người dùng nhấn vào một bài báo trong danh sách**
+
+1.  `newsAdapter` nhận được sự kiện click và báo lại cho `MainActivity`.
+2.  Hàm `openDetail(NewsItem)` được thực thi với thông tin của chính bài báo đã được nhấn.
+3.  Hàm này tạo một `Intent` để chuyển sang `DetailActivity`.
+4.  Nó "đóng gói" các dữ liệu quan trọng của bài báo (tiêu đề, ảnh, nội dung, URL...) vào `Intent`.
+5.  Cuối cùng, nó gọi `startActivity()` để mở màn hình chi tiết bài báo.
+
+#### **Luồng C: Người dùng nhấn vào icon Tài khoản (`btnAccount`)**
+
+1.  Một `Intent` đơn giản được tạo ra để chuyển sang `ProfileActivity`.
+2.  `startActivity()` được gọi và người dùng được đưa đến màn hình thông tin cá nhân.
